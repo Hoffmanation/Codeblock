@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script src="resources/js/angular.min.js"></script>
+
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>CodeBlock</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="resources/css/blog-home.css" rel="stylesheet">
+	<link href="resources/css/form.css" rel="stylesheet">
+	</head>
+
+<body>
+	<!--angularJS definition  -->
+	<div ng-app="blogApp" ng-controller="blogAppController" data-ng-init="getAllBlogsByUserId()">
+	
+  <script type="text/ng-template" id="alert.html">
+    <div ng-transclude></div>
+  </script>
+
+
+  
+		<!-- Navigation -->
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+				<form id="logoutForm" method="POST" action="${contextPath}/logout">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+				</form>
+
+				<h2 data-ng-init="getInfo()">Welcome, {{info}}</h2>
+				<a ng-click="logout()" id="logout_btn" class="btn btn-primary" href="login.html">Logout</a>
+
+	
+			<div class="container">
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li><a href="#" ng-click="getAllBlogsByUserId()">My wall</a></li>
+						<li><a href="#">Services</a></li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+				</div>
+			</div>
+			<img src="resources/img/logo-blue.png" alt="openlegacy" id="logo_nav"
+				title="openlegacy" width="440" caption="false"
+				data-constrained="true" style="width: 440px;" srcset="" />
+		</nav>
+
+
+		<!-- Page Content -->
+		<div class="container">
+  <div ng-show="ShowTags()" uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
+<!-- <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button> -->
+			<div class="row">
+
+				<!-- Blog Entries Column -->
+				<div class="col-md-8">
+
+					<h1 class="page-header">Welcome to your Code Block inventory</h1>
+
+					<!-- First Blog Post -->
+					<div data-ng-repeat="blog in printAllBlogs">
+						<h2 style="color: black;">
+							Topic:<a> {{blog.topic}}</a>
+						</h2>
+						<br> <br>
+
+
+						<p class="lead">
+							by: <a>{{info}}</a>
+						</p>
+						<p class="lead">
+							Language: <a>{{blog.language}}</a>
+						</p>
+						<p>
+							<span class="glyphicon glyphicon-time"></span> Posted on
+							{{blog.date}}
+						</p>
+
+						<img class="img-responsive" src="{{blog.img}}" height="100" width="200" alt=""> <br>
+						<div style="margin-bottom: 40px;">
+							<pre>
+							<h4>{{blog.codeBlock}}</h4>
+						</pre>
+						</div>
+						<div style="display: inline-block;">
+							<a class="btn btn-primary" data-toggle="modal"
+								data-target="#myModal" href="#" ng-click="clean()">Update entry <span
+								class="glyphicon glyphicon-chevron-right"></span></a>
+
+
+							<!-- The Modal -->
+							<div id="myModal" class="modal">
+
+								<!-- Modal content -->
+								<div class="modal-content" ng-init="getAvalibaleLanguages()">
+									<span class="close">&times;</span>
+									<h1>Update entry</h1>
+									<form class="cf">
+										<div class="half left cf">
+											<input type="text" id="input-name" placeholder="Topic"
+												ng-model="topic">
+										</div>
+										<!-- <div class="styled-select blue semi-square">
+										<select ng-model="selectedLanguage"
+											placeholder="Write your code here"
+											ng-options="language for language in printAllAvalibaleLanguages">
+											<option value="" disabled selected>Language</option>
+										</select>
+
+									</div> -->
+
+
+										<div class="cf">
+											<textarea name="message" type="text" id="input-message"
+												placeholder="Write your code here" rows="12"
+												ng-model="codeBlock"></textarea>
+										</div>
+
+										<input ng-click="updateBlog(blog.id ,codeBlock,topic)" type="submit"
+											value="Update" id="input-submit"> <input
+											type="hidden" id="token" name="${_csrf.parameterName}"
+											value="${_csrf.token}" />
+										<div>{{formMessage}}</div>
+
+									</form>
+								</div>
+
+							</div>
+
+
+						</div>
+						<div style="display: inline-block;">
+							<a class="btn btn-primary" data-toggle="modal"
+								data-target="#myModal2" href="#">Delete entry <span
+								class="glyphicon glyphicon-chevron-right"></span></a>
+							
+
+							<div class="modal fade" id="myModal2" role="dialog">
+								<div class="modal-dialog modal-sm">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">Delete Entry</h4>
+										</div>
+										<div class="modal-body">
+											<p>Your about to delete this entry</p>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-info btn-lg"  data-dismiss="modal" ng-click="deleteBlog(blog.id)">delete</button>
+											<button type="button" class="btn btn-info btn-lg"  data-dismiss="modal" >close</button>
+											<input type="hidden" id="token" name="${_csrf.parameterName}"
+												value="${_csrf.token}" />
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+
+						</div>
+						<hr style="margin-top:50px ; margin-bottom:50px ;">
+					</div>
+
+					<!-- Pager -->
+					<ul class="pager">
+						<li class="previous"><a href="#">&larr; Older</a></li>
+						<li class="next"><a href="#">Newer &rarr;</a></li>
+					</ul>
+
+				</div>
+
+				<!-- Blog Sidebar Widgets Column -->
+				<div class="col-md-4">
+
+					<!-- Blog Search Well -->
+					<div class="well">
+						<h4>Blog Search</h4>
+						<div class="input-group">
+							<input ng-model="search" type="text" class="form-control">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button">
+									<span ng-click="SearchAllBlogs(search)"
+										class="glyphicon glyphicon-search"></span>
+								</button>
+							</span>
+						</div>
+						<br>
+						<p style="color:red ; ">{{searchError}}</p>
+						<!-- /.input-group -->
+					</div>
+
+
+
+					<!-- Blog Categories Well -->
+					<div class="well" ng-init="getAllLanguagesByUserId()">
+						<h4>Blog Categories</h4>
+						<div class="row">
+							<!-- /.col-lg-6 -->
+							<div class="col-lg-6" ng-repeat="len in printAllUserLanguages">
+								<ul class="list-unstyled">
+									<li><a ng-click="getAllBlogsByLanguage(len)">{{len}}</a></li>
+								</ul>
+							</div>
+							<!-- /.col-lg-6 -->
+						</div>
+					</div>
+
+
+					<!-- Trigger/Open The Modal -->
+					<div class="well">
+						<h2>
+							<a id="createEntryBtn" href="#" ng-click="clean()">Create new entry</a>
+						</h2>
+
+						<!-- The Modal -->
+						<div id="createEntryModal" class="modal">
+
+							<!-- Modal content -->
+							<div class="modal-content" ng-init="getAvalibaleLanguages()">
+								<span class="close">&times;</span>
+								<h1>Create new entry</h1>
+								<form class="cf">
+									<div class="half left cf">
+										<input type="text" id="input-name" placeholder="Topic"
+											ng-model="topic">
+									</div>
+									<div class="half right cf">
+										<select ng-model="selectedLanguage"
+											placeholder="Write your code here"
+											ng-options="language for language in printAllAvalibaleLanguages">
+											<option value="" disabled selected>Language</option>
+										</select>
+
+									</div>
+
+
+									<div class="cf">
+										<textarea name="message" type="text" id="input-message"
+											placeholder="Write your code here" rows="12"
+											ng-model="codeBlock"></textarea>
+									</div>
+									<input ng-click="createBlog()" type="submit" value="Submit"
+										id="input-submit">
+									<div>{{formMessage}}</div>
+								</form>
+							</div>
+
+						</div>
+					</div>
+					<!-- Side Widget Well -->
+					<div class="well">
+						<h4>Side Widget Well</h4>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+							Inventore, perspiciatis adipisci accusamus laudantium odit
+							aliquam repellat tempore quos aspernatur vero.</p>
+					</div>
+
+				</div>
+
+			</div>
+			<!-- /.row -->
+
+			<hr>
+
+			<!-- Footer -->
+			<footer>
+				<div class="row">
+					<div class="col-lg-12">
+						<p>Copyright &copy; Oren Hoffman 2014</p>
+					</div>
+
+				</div>
+
+			</footer>
+
+		</div>
+	</div>
+
+ 
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+	<script src="resources/js/jquery.js"></script>
+	<script src="resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+	<script src="resources/js/blog.js"></script>
+	<script src="resources/js/login.js"></script>
+	<script src="resources/js/bootstrap.min.js"></script>
+	<script src="resources/js/createEntrymodal.js"></script>
+	
+
+
+</body>
+
+</html>
