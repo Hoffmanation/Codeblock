@@ -21,7 +21,7 @@ loginApp.controller("loginAppController",function($scope, $http, $rootScope, $wi
 							data: $scope.userDetails,
 							url : $scope.restUrl + "/login",
 							headers : {
-								'X-CSRF-TOKEN' : token[1],
+								'X-CSRF-TOKEN' : token[6],
 								'Content-Type' : 'application/json',
 								'Accept' : 'application/json'
 							}
@@ -51,7 +51,7 @@ loginApp.controller("loginAppController",function($scope, $http, $rootScope, $wi
 							data : $scope.userDetails,
 							url : $scope.restUrl + "/registration",
 							headers : {
-								'X-CSRF-TOKEN' : token[1],
+								'X-CSRF-TOKEN' : token[6],
 								'Content-Type' : 'application/json',
 								'Accept' : 'application/json'
 							}

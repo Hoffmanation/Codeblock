@@ -105,7 +105,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			data : $scope.blog,
 			url : $scope.restUrl + "/createBlog/",
 			headers : {
-				'X-CSRF-TOKEN' : token[1],
+				'X-CSRF-TOKEN' : token[6],
 				'Content-Type' : 'application/json',
 				'Accept' : 'application/json'
 			}
@@ -132,7 +132,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			data : $scope.blog,
 			url : $scope.restUrl + "/updateBlog/",
 			headers : {
-				'X-CSRF-TOKEN' : token[1],
+				'X-CSRF-TOKEN' : token[6],
 				'Content-Type' : 'application/json',
 				'Accept' : 'application/json'
 			}
@@ -172,7 +172,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			data : $scope.blog,
 			url : $scope.restUrl + "/deleteBlog/",
 			headers : {
-				'X-CSRF-TOKEN' : token[1],
+				'X-CSRF-TOKEN' : token[6],
 				'Content-Type' : 'application/json',
 				'Accept' : 'application/json'
 			}
@@ -231,7 +231,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			data : $scope.blog,
 			url : $scope.restUrl + "/logout/",
 			headers : {
-				'X-CSRF-TOKEN' : token[1],
+				'X-CSRF-TOKEN' : token[6],
 				'Content-Type' : 'application/json',
 				'Accept' : 'application/json'
 			}
