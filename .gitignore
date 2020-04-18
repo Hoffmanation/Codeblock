@@ -1,5 +1,11 @@
+HELP.md
 target/
+logs/
 !.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+**/*.log
 
 ### STS ###
 .apt_generated
@@ -8,6 +14,8 @@ target/
 .project
 .settings
 .springBeans
+.sts4-cache
+.application.properties
 
 ### IntelliJ IDEA ###
 .idea
@@ -16,9 +24,12 @@ target/
 *.ipr
 
 ### NetBeans ###
-nbproject/private/
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
+
+### VS Code ###
+.vscode/
