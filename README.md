@@ -40,7 +40,7 @@ The end user have he's own account in which he can upload,delete,update and disp
 - run maven install and retrieve the Codeblock.jar file
 - java - jar Codeblock.jar
 
-## Accessing Filestone application
+## Accessing Codeblock application
 -http://localhost:8090/
 
 # .properties files explanation
