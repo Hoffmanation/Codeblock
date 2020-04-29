@@ -1,4 +1,4 @@
-package com.codeblock.dao;
+package com.codeblock.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

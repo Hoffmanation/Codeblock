@@ -1,4 +1,4 @@
-package com.codeblock.entity;
+package com.codeblock.pojo;
 
 public class LoginDetails {
 

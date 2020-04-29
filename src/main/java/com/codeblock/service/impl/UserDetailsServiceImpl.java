@@ -1,4 +1,4 @@
-package com.codeblock.daoImpl;
+package com.codeblock.service.impl;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,9 +12,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codeblock.dao.UserRepository;
 import com.codeblock.entity.Role;
 import com.codeblock.entity.User;
+import com.codeblock.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta name="_csrf" content="${_csrf.token}"/>
 	<!-- default header name is X-CSRF-TOKEN -->
+	<meta name="_csrf" content="${_csrf.token}"/>
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,8 +20,10 @@
     <link href="resources/css/common.css" rel="stylesheet">
     <link href="resources/css/form.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    
     <!--JS Defenitions  -->
-	<script src="resources/js/angular.min.js"></script>
+	<script data-require="angular.js@1.0.x" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular.min.js" data-semver="1.0.8"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular-cookies.js"></script>
 	<script src="resources/js/blog.js"></script>
 	<script src="resources/js/bootstrap.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>

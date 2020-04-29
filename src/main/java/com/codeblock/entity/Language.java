@@ -1,22 +1,51 @@
 package com.codeblock.entity;
 
-public enum Language {
+import java.util.UUID;
 
-	angularJS, JAVA, C {
-		public String toString() {
-			return "C#";
-		}
-	},
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "language")
+public class Language {
+
+	private UUID id ;
+	private String name ;
 	
-	jQuery,XML,HTML{
-		public String toString() {
-			return "HTML AND CSS";
-		}
-	},
-SCRIPT{
-		public String toString() {
-			return "JAVA SCRIPT";
-		}
-	},
+	public Language() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Language(String name) {
+		super();
+		this.name = name;
+	}
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "Language [id=" + id + ", name=" + name + "]";
+	}
+	
 
 }

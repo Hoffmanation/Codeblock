@@ -30,19 +30,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	  http
     	     .authorizeRequests()
-    	         .antMatchers("/resources/**", "/registration.html" ,"/codeBlock/**" ,"/static/**").permitAll() .antMatchers("/index.html").hasRole("USER")
+    	         .antMatchers("/resources/**", "/registration.html" ,"/codeblock/**" ,"/static/**").permitAll() .antMatchers("/index.html").hasRole("USER")
     	         .anyRequest().authenticated()
     	         .and()
-    	     .formLogin()
+    	         .formLogin()
     	         .loginPage("/login.html").defaultSuccessUrl("/index.html")
     	         .permitAll()
     	         .and()
-    	     .logout()
-    	         .logoutRequestMatcher(
-    	                 new AntPathRequestMatcher("/codeBlock/logout")
-    	         )
-    	         .addLogoutHandler(new TaskImplementingLogoutHandler())
-    	         .logoutSuccessUrl("/codeBlock/logout").permitAll().and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class); ;
+    	         .logout()
+    	         .logoutRequestMatcher(new AntPathRequestMatcher("/codeblock/logout"))
+    	         .addLogoutHandler(new CodeblockLogoutHandler())
+    	         .logoutSuccessUrl("/codeblock/logout").permitAll().and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class); ;
     	  
 
     }

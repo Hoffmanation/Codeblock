@@ -1,10 +1,10 @@
-var blogApp = angular.module("blogApp",  [ 'ui.bootstrap'  ]);
+var blogApp = angular.module("blogApp",  [ 'ui.bootstrap' ,'ngCookies'  ]);
 
-blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootScope,
-		$window, $location) {
+blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootScope,$window, $location,$cookies) {
 	$scope.searchError = "" ; 
 	$scope.KeyPressed = false;
 	$scope.Tags = '';
+	$scope.blogImg = '';
 	
 	$scope.ShowTags = function () {
 	    return $scope.KeyPressed && $scope.Tags !== '';
@@ -15,10 +15,9 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 		  ];
 
 
-	$scope.restUrl = $location.protocol() + '://' + $location.host() + ':'+ $location.port() + "/codeBlock";
+	$scope.restUrl = $location.protocol() + '://' + $location.host() + ':'+ $location.port() + "/codeblock";
 	
-	var x = document.cookie;
-	var token = x.split("=");
+	var token = $cookies.get('XSRF-TOKEN');
 
 	$scope.getId = function() {
 		url = $scope.restUrl + "/getId/";
@@ -60,6 +59,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 		});
 
 	};
+	
 
 	$scope.getAllLanguagesByUserId = function() {
 		url = $scope.restUrl + "/getAllLanguagesByUserId/";
@@ -82,22 +82,9 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 	}
 
 	$scope.createBlog = function() {
-
-		if ($scope.selectedLanguage == "C#") {
-			$scope.selectedLanguage = "C"
-		}
-
-		else if ($scope.selectedLanguage == "HTML AND CSS") {
-			$scope.selectedLanguage = "HTML"
-		}
-
-		else if ($scope.selectedLanguage == "JAVA SCRIPT") {
-			$scope.selectedLanguage = "SCRIPT"
-		}
-
 		$scope.blog = {
 			topic : $scope.topic,
-			codeBlock : $scope.codeBlock,
+			codeblock : $scope.codeblock,
 			language : $scope.selectedLanguage,
 		}
 		$http({
@@ -105,7 +92,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			data : $scope.blog,
 			url : $scope.restUrl + "/createBlog/",
 			headers : {
-				'X-CSRF-TOKEN' : token[6],
+				'X-CSRF-TOKEN' : token,
 				'Content-Type' : 'application/json',
 				'Accept' : 'application/json'
 			}
@@ -121,18 +108,20 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 		});
 	};
 
+	
+	
 	$scope.updateBlog = function(id, code , topic) {
 		$scope.blog = {
 			id : id,
 			topic : topic,
-			codeBlock : code,
+			codeblock : code,
 		}
 		$http({
 			method : 'PUT',
 			data : $scope.blog,
 			url : $scope.restUrl + "/updateBlog/",
 			headers : {
-				'X-CSRF-TOKEN' : token[6],
+				'X-CSRF-TOKEN' : token,
 				'Content-Type' : 'application/json',
 				'Accept' : 'application/json'
 			}
@@ -172,7 +161,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			data : $scope.blog,
 			url : $scope.restUrl + "/deleteBlog/",
 			headers : {
-				'X-CSRF-TOKEN' : token[6],
+				'X-CSRF-TOKEN' : token,
 				'Content-Type' : 'application/json',
 				'Accept' : 'application/json'
 			}
@@ -221,7 +210,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 	$scope.clean = function() {
 		$scope.formMessage == "";
 		$scope.topic = "";
-		$scope.codeBlock = "";
+		$scope.codeblock = "";
 		$scope.selectedLanguage = "";
 	}
 
@@ -231,7 +220,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			data : $scope.blog,
 			url : $scope.restUrl + "/logout/",
 			headers : {
-				'X-CSRF-TOKEN' : token[6],
+				'X-CSRF-TOKEN' : token,
 				'Content-Type' : 'application/json',
 				'Accept' : 'application/json'
 			}

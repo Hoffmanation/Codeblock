@@ -11,8 +11,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import com.codeblock.dao.UserService;
 import com.codeblock.entity.User;
+import com.codeblock.service.UserService;
 
 @Component
 @PropertySource("classpath:validation.properties")

@@ -1,4 +1,4 @@
-package com.codeblock.dao;
+package com.codeblock.repository;
 
 import java.util.List;
 import java.util.Set;
@@ -20,7 +20,7 @@ public interface BlogRepository extends JpaRepository<Blog,Long> {
 	
 	@RestResource(exported = false)
 	@Query("SELECT b FROM Blog  AS b WHERE b.language = :language AND b.userId = :userId")
-	public List<Blog> getAllBlogsByLanguage(@Param("language") Language language, @Param("userId") UUID userId);
+	public List<Blog> getAllBlogsByLanguage(@Param("language") String language, @Param("userId") UUID userId);
 
 	@RestResource(exported = false)
 	@Query("SELECT b FROM Blog  AS b WHERE b.userId = :userId ORDER BY b.date DESC")
@@ -31,8 +31,8 @@ public interface BlogRepository extends JpaRepository<Blog,Long> {
 	public List<Blog> getAllBlogsByDate(@Param("date") String date ,@Param("userId")  UUID userId);
 	
 	@RestResource(exported = false)
-	@Query("SELECT b FROM Blog  AS b WHERE UPPER(b.codeBlock) LIKE %:codeBlock% AND b.userId = :userId")
-	public List<Blog> SearchAllBlogs(@Param("codeBlock") String codeBlock , @Param("userId") UUID userId);
+	@Query("SELECT b FROM Blog  AS b WHERE UPPER(b.codeblock) LIKE %:codeblock% AND b.userId = :userId")
+	public List<Blog> SearchAllBlogs(@Param("codeblock") String codeblock , @Param("userId") UUID userId);
 	
 	@RestResource(exported = false)
 	@Query("SELECT b FROM Blog  AS b WHERE b.blogId = :blogId")
@@ -40,10 +40,10 @@ public interface BlogRepository extends JpaRepository<Blog,Long> {
 
 	@RestResource(exported = false)
 	@Query("SELECT b.language FROM Blog  AS b WHERE b.userId = :userId")
-	public Set<Language> getAllLanguagesByUserId(@Param("userId") UUID userId);
+	public Set<String> getAllLanguagesByUserId(@Param("userId") UUID userId);
 	
 	@Modifying
-	@Query("update Blog b set b.codeBlock= :codeBlock , b.topic= :topic where b.blogId = :blogId")
-	public void updateBlog(@Param("codeBlock") String codeBlock, @Param("topic") String topic,@Param("blogId") UUID blogId);
+	@Query("update Blog b set b.codeblock= :codeblock , b.topic= :topic where b.blogId = :blogId")
+	public void updateBlog(@Param("codeblock") String codeblock, @Param("topic") String topic,@Param("blogId") UUID blogId);
 
 }

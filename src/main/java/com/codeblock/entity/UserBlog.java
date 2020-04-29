@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "USER_BLOG")
 @IdClass(UserBlogAccociation.class)
-public class User_Blogs implements Serializable {
+public class UserBlog implements Serializable {
 	private static final long serialVersionUID = 2356940831665710978L;
 
 	@Id
@@ -23,7 +23,7 @@ public class User_Blogs implements Serializable {
 	private UUID blogId;
 
 	@ManyToOne
-	@PrimaryKeyJoinColumn(name = "USER_ID", referencedColumnName = "ID")
+	@PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
 	@ManyToOne

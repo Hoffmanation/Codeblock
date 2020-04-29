@@ -1,4 +1,4 @@
-package com.codeblock.dao;
+package com.codeblock.repository;
 
 import java.util.List;
 import java.util.UUID;

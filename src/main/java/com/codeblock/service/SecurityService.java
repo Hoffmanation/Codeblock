@@ -1,4 +1,4 @@
-package com.codeblock.dao;
+package com.codeblock.service;
 
 public interface SecurityService {
 

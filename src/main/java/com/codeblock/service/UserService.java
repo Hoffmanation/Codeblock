@@ -1,10 +1,10 @@
-package com.codeblock.dao;
+package com.codeblock.service;
 
 import java.util.List;
 import java.util.UUID;
 
 import com.codeblock.entity.User;
-import com.codeblock.exce.BlogException;
+import com.codeblock.handler.BlogException;
 
 public interface UserService {
 

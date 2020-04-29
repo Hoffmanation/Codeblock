@@ -18,8 +18,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //Declaring where the Spring-IOC-Container will be scanning for DB-Entities to be used by JPA/Hibernate ORM System
 @EntityScan({ "com.codeblock.entity" })
 //Declaring where the Spring-IOC-Container will be scanning for the DAO-Persistence layer to be used by JPA-Spring Data
-@EnableJpaRepositories({ "com.codeblock.dao", "com.codeblock.daoImpl"})
-public class CodeBlockApplication  {
+@EnableJpaRepositories({ "com.codeblock.service", "com.codeblock.service.imp" ,"com.codeblock.repository"})
+public class CodeblockApplication  {
 
 
 	/**
@@ -28,7 +28,7 @@ public class CodeBlockApplication  {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		SpringApplication.run(CodeBlockApplication.class, args);
+		SpringApplication.run(CodeblockApplication.class, args);
 	}
 
 

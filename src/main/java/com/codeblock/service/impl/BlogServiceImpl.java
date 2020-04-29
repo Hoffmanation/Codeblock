@@ -1,4 +1,4 @@
-package com.codeblock.daoImpl;
+package com.codeblock.service.impl;
 
 import java.util.List;
 import java.util.Set;
@@ -9,22 +9,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codeblock.dao.BlogRepository;
-import com.codeblock.dao.BlogService;
 import com.codeblock.entity.Blog;
-import com.codeblock.entity.Language;
-import com.codeblock.exce.BlogException;
-import com.codeblock.util.Utilities;
+import com.codeblock.handler.BlogException;
+import com.codeblock.repository.BlogRepository;
+import com.codeblock.service.BlogService;
+import com.codeblock.util.WebScrapUtil;
 
 @Service
 public class BlogServiceImpl implements BlogService {
 
 	@Autowired
 	private BlogRepository blogDao;
+	
+	@Autowired
+	private WebScrapUtil  webScrapUtil;
 
 	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public List<Blog> getAllBlogsByLanguage(Language language, UUID userId) throws BlogException {
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	public List<Blog> getAllBlogsByLanguage(String language, UUID userId) throws BlogException {
 		try {
 			return blogDao.getAllBlogsByLanguage(language, userId);
 		} catch (Exception e) {
@@ -64,11 +66,10 @@ public class BlogServiceImpl implements BlogService {
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public boolean createBlog(String topic, String codeBlock, Language language, String date, UUID userId)
+	public boolean createBlog(String topic, String codeblock, String language, String date, UUID userId)
 			throws BlogException {
 		try {
-			Utilities.getImgPath(language);
-			Blog blog = new Blog(topic, codeBlock, language, date,Utilities.getImgPath(language), userId);
+			Blog blog = new Blog(topic, codeblock, language.toUpperCase(), date,webScrapUtil.retrieveProgramLanguageImg(language), userId);
 			blogDao.save(blog);
 			return true;
 		} catch (Exception e) {
@@ -78,14 +79,13 @@ public class BlogServiceImpl implements BlogService {
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public boolean updateBlog(String codeBlock, String topic, UUID blogId) throws BlogException {
+	public boolean updateBlog(String codeblock, String topic, UUID blogId) throws BlogException {
 		try {
-			blogDao.updateBlog(codeBlock, topic,blogId);
+			blogDao.updateBlog(codeblock, topic,blogId);
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new BlogException(e.getMessage());
 		}
-		return false;
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public Set<Language> getAllLanguagesByUserId(UUID userId) throws BlogException {
+	public Set<String> getAllLanguagesByUserId(UUID userId) throws BlogException {
 		try {
 			return blogDao.getAllLanguagesByUserId(userId) ;
 		} catch (Exception e) {

@@ -5,9 +5,9 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "users")
 public class User {
-    private UUID userId = UUID.randomUUID();
+    private UUID userId ;
     private String username;
     private String password;
     private String passwordConfirm;
@@ -27,6 +27,7 @@ public class User {
 	}
 
 	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO )
     public UUID getUserId() {
         return userId;
     }

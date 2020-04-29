@@ -1,11 +1,10 @@
-var loginApp = angular.module("loginApp", [ 'ui.bootstrap' ])
+var loginApp = angular.module("loginApp", [ 'ui.bootstrap' ,'ngCookies' ])
 
 
-loginApp.controller("loginAppController",function($scope, $http, $rootScope, $window,$location) {
+loginApp.controller("loginAppController",function($scope, $http, $rootScope, $window,$location,$cookies) {
 
-					$scope.restUrl = $location.protocol() + '://'+ $location.host() +':'+  $location.port()+ "/codeBlock";
-					var x = document.cookie;
-					var token = x.split("=");
+					$scope.restUrl = $location.protocol() + '://'+ $location.host() +':'+  $location.port()+ "/codeblock";
+					var token = $cookies.get('XSRF-TOKEN');
 					var name= "spacial" ;
 					$scope.registrationErrorMessage = [] ;
 					
@@ -21,7 +20,7 @@ loginApp.controller("loginAppController",function($scope, $http, $rootScope, $wi
 							data: $scope.userDetails,
 							url : $scope.restUrl + "/login",
 							headers : {
-								'X-CSRF-TOKEN' : token[6],
+								'X-CSRF-TOKEN' : token,
 								'Content-Type' : 'application/json',
 								'Accept' : 'application/json'
 							}
@@ -51,7 +50,7 @@ loginApp.controller("loginAppController",function($scope, $http, $rootScope, $wi
 							data : $scope.userDetails,
 							url : $scope.restUrl + "/registration",
 							headers : {
-								'X-CSRF-TOKEN' : token[6],
+								'X-CSRF-TOKEN' : token,
 								'Content-Type' : 'application/json',
 								'Accept' : 'application/json'
 							}

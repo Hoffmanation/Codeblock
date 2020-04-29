@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<script src="resources/js/angular.min.js"></script>
+	<!-- default header name is X-CSRF-TOKEN -->
+	<meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
 
+	<title>CodeBlock</title>
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<meta name="description" content="">
-<meta name="author" content="">
-
-<title>CodeBlock</title>
-
-<!-- Bootstrap Core CSS -->
-<link href="resources/css/bootstrap.min.css" rel="stylesheet">
-<link href="resources/css/blog-home.css" rel="stylesheet">
+	<!-- CSS Definitions-->
+	<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+	<link href="resources/css/blog-home.css" rel="stylesheet">
 	<link href="resources/css/form.css" rel="stylesheet">
+	
+	
 	</head>
 
 <body>
@@ -90,7 +91,7 @@
 						<img class="img-responsive" src="{{blog.img}}" height="100" width="200" alt=""> <br>
 						<div style="margin-bottom: 40px;">
 							<pre>
-							<h4>{{blog.codeBlock}}</h4>
+							<h4>{{blog.codeblock}}</h4>
 						</pre>
 						</div>
 						<div style="display: inline-block;">
@@ -124,10 +125,10 @@
 										<div class="cf">
 											<textarea name="message" type="text" id="input-message"
 												placeholder="Write your code here" rows="12"
-												ng-model="codeBlock"></textarea>
+												ng-model="codeblock"></textarea>
 										</div>
 
-										<input ng-click="updateBlog(blog.id ,codeBlock,topic)" type="submit"
+										<input ng-click="updateBlog(blog.id ,codeblock,topic)" type="submit"
 											value="Update" id="input-submit"> <input
 											type="hidden" id="token" name="${_csrf.parameterName}"
 											value="${_csrf.token}" />
@@ -248,7 +249,7 @@
 									<div class="cf">
 										<textarea name="message" type="text" id="input-message"
 											placeholder="Write your code here" rows="12"
-											ng-model="codeBlock"></textarea>
+											ng-model="codeblock"></textarea>
 									</div>
 									<input ng-click="createBlog()" type="submit" value="Submit"
 										id="input-submit">
@@ -286,11 +287,12 @@
 	</div>
 
  
+ 	<script data-require="angular.js@1.0.x" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular.min.js" data-semver="1.0.8"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular-cookies.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
 	<script src="resources/js/jquery.js"></script>
 	<script src="resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
 	<script src="resources/js/blog.js"></script>
-	<script src="resources/js/login.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
 	<script src="resources/js/createEntrymodal.js"></script>
 	

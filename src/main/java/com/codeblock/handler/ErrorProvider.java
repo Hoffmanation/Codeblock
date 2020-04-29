@@ -1,11 +1,11 @@
-package com.codeblock.exce;
+package com.codeblock.handler;
 
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.codeblock.entity.Message;
+import com.codeblock.pojo.Message;
 
 
 // This class will provide a message to be shown to the user in case exception is thrown by one of the restful resource methods

@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codeblock.dao.SecurityService;
-import com.codeblock.dao.UserService;
-import com.codeblock.entity.Message;
 import com.codeblock.entity.User;
-import com.codeblock.exce.BlogException;
+import com.codeblock.handler.BlogException;
+import com.codeblock.pojo.Message;
+import com.codeblock.service.SecurityService;
+import com.codeblock.service.UserService;
 import com.codeblock.util.UserValidator;
 
 @RestController
 @Produces(MediaType.APPLICATION_JSON_VALUE)
 @Consumes(MediaType.APPLICATION_JSON_VALUE)
 
-public class UserResuorces {
+public class UserController {
 
 	public static final String USER_LOGIN = "user";
 
@@ -39,7 +39,7 @@ public class UserResuorces {
 	@Autowired
 	private UserValidator userValidator;
 
-	@RequestMapping(path = "codeBlock/registration", method = RequestMethod.POST)
+	@RequestMapping(path = "codeblock/registration", method = RequestMethod.POST)
 	public Response registration(@RequestBody(required = true) User userDetail, BindingResult bindingResult,
 			HttpSession session) throws BlogException {
 		User user = new User(userDetail.getUsername(), userDetail.getPassword(), userDetail.getPasswordConfirm());
@@ -54,7 +54,7 @@ public class UserResuorces {
 		return Response.status(200).entity(new Message("you successfully logged in!")).build();
 	}
 
-	@RequestMapping(path = "codeBlock/login", method = RequestMethod.POST)
+	@RequestMapping(path = "codeblock/login", method = RequestMethod.POST)
 	public Response login(@RequestBody User userDetail, HttpSession session) {
 		if (securityService.autologin(userDetail.getUsername(), userDetail.getPassword())) {
 			User user = userService.findByUsername(userDetail.getUsername());

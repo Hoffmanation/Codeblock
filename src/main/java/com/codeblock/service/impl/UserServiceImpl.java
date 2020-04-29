@@ -1,4 +1,4 @@
-package com.codeblock.daoImpl;
+package com.codeblock.service.impl;
 
 import java.util.HashSet;
 import java.util.List;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codeblock.dao.RoleRepository;
-import com.codeblock.dao.UserRepository;
-import com.codeblock.dao.UserService;
 import com.codeblock.entity.Role;
 import com.codeblock.entity.User;
-import com.codeblock.exce.BlogException;
+import com.codeblock.handler.BlogException;
+import com.codeblock.repository.RoleRepository;
+import com.codeblock.repository.UserRepository;
+import com.codeblock.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {

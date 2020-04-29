@@ -15,9 +15,7 @@ import org.springframework.web.util.WebUtils;
 
 public class CsrfHeaderFilter extends OncePerRequestFilter {
   @Override
-  protected void doFilterInternal(HttpServletRequest request,
-      HttpServletResponse response, FilterChain filterChain)
-      throws ServletException, IOException {
+  protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 	  HttpSession session = request.getSession(false) ;
 	  if (null!=session && null!=session.getAttribute("user")) {
 		String url =   request.getRequestURL().toString();

@@ -1,4 +1,4 @@
-package com.codeblock.daoImpl;
+package com.codeblock.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import com.codeblock.dao.SecurityService;
+import com.codeblock.service.SecurityService;
 
 @Service
 public class SecurityServiceImpl implements SecurityService {
