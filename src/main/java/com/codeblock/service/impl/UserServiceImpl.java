@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
-	public boolean createUser(User user) {
+	public boolean createUser(User user) throws BlogException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Role newRole = new Role("ROLE_USER");
         roleRepository.save(newRole);
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public List<User> getUserById(UUID id) {
+	public List<User> getUserById(UUID id) throws BlogException {
 			if (!userDao.getUserById(id).isEmpty()) {
 				return userDao.getUserById(id);
 			}
@@ -66,8 +66,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public boolean createUser(String name, String password, String password2) throws BlogException {
-		User user = new User(name, password, password2);
+	public boolean createUser(String name, String password) throws BlogException {
+		User user = new User(name, password);
 		user.setPassword(user.getPassword());
 		user.setRoles(new HashSet<>(roleRepository.findAll()));
 		userDao.save(user);

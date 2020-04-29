@@ -1,30 +1,37 @@
 package com.codeblock.handler;
 
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.codeblock.pojo.Message;
+import org.springframework.http.MediaType;
 
-
-// This class will provide a message to be shown to the user in case exception is thrown by one of the restful resource methods
+/**
+ * This class will provide a message to be shown to the user in case an
+ * exception is thrown by one of the restful resource methods
+ * 
+ * @author Hoffman
+ *
+ */
 @Provider
-public class ErrorProvider implements ExceptionMapper<Exception>{
+public class ErrorProvider implements ExceptionMapper<BlogException> {
 
-public static String error ; 
 
-	@Override
-	public Response toResponse(Exception e) {
-		return 
-				Response.serverError() // create response builder with Error code: 500
-				.entity(new Message(printError(error))) // create a JSON within the reponse
-				.build(); // create the response using the builder
-	}
-	
-	public String printError(String error) {
-		return error ; 
-	}
-	
+
+	   @Override
+	    public Response toResponse(final BlogException exception) {
+	        return Response.status(getBlogErrorStatus(exception))
+	                       .entity(getBlogError(exception))
+	                       .type(MediaType.APPLICATION_JSON_VALUE)
+	                       .build();
+	    }
+
+	   private String getBlogError(BlogException exception) {
+	        return exception.getBlogError() ;
+	    }
+	   
+	   private Response.Status getBlogErrorStatus(BlogException exception) {
+		   return exception.getBlogErrorStatus() ;
+	   }
 
 }

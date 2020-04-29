@@ -22,8 +22,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     
     <!--JS Defenitions  -->
-	<script data-require="angular.js@1.0.x" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular.min.js" data-semver="1.0.8"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular-cookies.js"></script>
+	<script data-require="angular.js@1.0.x" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js" data-semver="1.0.8"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-cookies.js"></script>
 	<script src="resources/js/blog.js"></script>
 	<script src="resources/js/bootstrap.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
@@ -36,20 +36,22 @@
 
 <body>
 
-	<!--angularJS definition  -->
-	<div data-ng-app="loginApp" data-ng-controller="loginAppController">
+<!--angularJS definition  -->
+<div data-ng-app="loginApp" data-ng-controller="loginAppController">
 
 <div class="container">
 <img class="img-responsive" src="resources/img/logo-white.png" style="margin: 0 auto;" alt="">
     <form class="form-signin">
         <h1 class="form-heading">Log in</h1>
         <div class="form-group">
-            <input name="username" type="text" class="form-control" placeholder="Username" autofocus="true" ng-model="username"/>
+            <input name="username" type="text" class="form-control" placeholder="Email" autofocus="true" ng-model="username"/>
             <input name="password" type="password" class="form-control" placeholder="Password" ng-model="password"/>
             <span class="errorMessage">{{loginMessage}}</span>
             <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login()">Log In</button>
-            <h4 class="text-center"><a href="registration.html">Create an account</a></h4>
+            <h4 class="text-center"><a href="/registration.html">Create an account</a></h4>
+            <h4 class="text-center" data-toggle="modal" data-target="#myModal"><a href="" ng-click="cleanErrors()">Forgot my password</a></h4>
         </div>
+        <div class="loader" ng-hide="loader"></div>
     </form>
 
 </div>

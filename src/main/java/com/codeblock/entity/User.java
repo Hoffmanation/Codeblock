@@ -1,6 +1,9 @@
 package com.codeblock.entity;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Set;
 import java.util.UUID;
 
@@ -10,16 +13,15 @@ public class User {
     private UUID userId ;
     private String username;
     private String password;
-    private String passwordConfirm;
+    @JsonIgnore
     private Set<Role> roles;
 
     
     
-    public User( String username, String password, String passwordConfirm) {
+    public User( String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
-		this.passwordConfirm = passwordConfirm;
 	}
 
 	public User() {
@@ -52,14 +54,7 @@ public class User {
         this.password = password;
     }
 
-    @Transient
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
 
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
 
     @ManyToMany
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -73,8 +68,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", passwordConfirm="
-				+ passwordConfirm + ", roles=" + roles + "]";
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", roles=" + roles + "]";
 	}
     
     

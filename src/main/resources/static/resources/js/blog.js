@@ -1,87 +1,105 @@
+//Main blog angularJs module
 var blogApp = angular.module("blogApp",  [ 'ui.bootstrap' ,'ngCookies'  ]);
 
+//Main blog angularJs module-controller
 blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootScope,$window, $location,$cookies) {
+	
+	/**
+	 * Global variables
+	 */
+	$scope.username
 	$scope.searchError = "" ; 
 	$scope.KeyPressed = false;
+	$scope.showLoader = false;
 	$scope.Tags = '';
-	$scope.blogImg = '';
-	
-	$scope.ShowTags = function () {
-	    return $scope.KeyPressed && $scope.Tags !== '';
-	}
-	
-	 $scope.alerts = [
-		    { type: 'danger', msg: 'Please login first.' },
-		  ];
-
-
+	$scope.loggedinUser ;
+	$scope.alerts = [ { type: 'danger', msg: 'Please login first.' }];
 	$scope.restUrl = $location.protocol() + '://' + $location.host() + ':'+ $location.port() + "/codeblock";
-	
 	var token = $cookies.get('XSRF-TOKEN');
 
-	$scope.getId = function() {
-		url = $scope.restUrl + "/getId/";
+
+	/**
+	 * Handler Functions 
+	 */	
+	$scope.ShowTags = function () {
+		return $scope.KeyPressed && $scope.Tags !== '';
+	}
+
+	$scope.clean = function() {
+		$scope.formMessage == "";
+		$scope.topic = "";
+		$scope.codeblock = "";
+		$scope.selectedLanguage = "";
+	}
+	
+	$scope.showTheLoader = function(){
+		jQuery('#cover-spin').show();
+	}
+	
+	$scope.hideTheLoader = function(){
+		jQuery('#cover-spin').hide();
+	}
+	
+
+	/**
+	 * HTTP Ajax Functions 
+	 */	
+	$scope.getUserInfo = function() {
+		url = $scope.restUrl + "/getUserInfo/";
 		$http.get(url).then(function(response) {
-			if (response.data.message == 0) {			
-				$scope.KeyPressed = true;
-				$scope.Tags = 'return';
-				$scope.ShowTags();
-					  $scope.closeAlert = function(index) {
-					    $scope.alerts.splice(index, 1);
-				        $window.location.href = '/login.html';
-					  };
-			}
-			else {
-			
-			}
+			$scope.loggedinUser = response.data.entity;
+			$scope.username  = $scope.loggedinUser.username ;
+			$scope.username  = $scope.username.substring(0, $scope.username.indexOf('@'));
+			$scope.getAllBlogsByUserId();
+			$scope.hideTheLoader();
 		}, function(response) {
 			$scope.errormessage = response.data.message;
-		});
-	};
-
-	$scope.getId();
-
-	$scope.getInfo = function() {
-		url = $scope.restUrl + "/getInfo/";
-		$http.get(url).then(function(response) {
-			$scope.info = response.data.message;
-		}, function(response) {
-			$scope.errormessage = response.data.message;
+			$scope.hideTheLoader();
 		});
 	};
 
 	$scope.getAllBlogsByUserId = function() {
+		$scope.showTheLoader();
 		url = $scope.restUrl + "/getAllBlogsByUserId/";
 		$http.get(url).then(function(response) {
-			$scope.printAllBlogs = response.data;
+			$scope.printAllBlogs = response.data.entity;
+			$scope.hideTheLoader();
 		}, function(response) {
-			$scope.errormessage = response.data.message;
+			$scope.errormessage = response;
+			$scope.hideTheLoader();
 		});
 
 	};
 	
 
 	$scope.getAllLanguagesByUserId = function() {
+		$scope.showTheLoader();
 		url = $scope.restUrl + "/getAllLanguagesByUserId/";
 		$http.get(url).then(function(response) {
-			$scope.printAllUserLanguages = response.data;
+			$scope.printAllUserLanguages = response.data.entity;
+			$scope.hideTheLoader();
 		}, function(response) {
-			$scope.errormessage = response.data.message;
+			$scope.errormessage = response;
+			$scope.hideTheLoader();
 		});
 
 	};
 
 	$scope.getAvalibaleLanguages = function() {
+		$scope.showTheLoader();
 		url = $scope.restUrl + "/getAvalibaleLanguages/";
 		$http.get(url).then(function(response) {
-			$scope.printAllAvalibaleLanguages = response.data;
+			$scope.printAllAvalibaleLanguages = response.data.entity;
+			$scope.hideTheLoader();
 		}, function(response) {
 			$scope.errormessage = response.data.message;
+			$scope.hideTheLoader();
 		});
 
 	}
 
 	$scope.createBlog = function() {
+		$scope.showTheLoader();
 		$scope.blog = {
 			topic : $scope.topic,
 			codeblock : $scope.codeblock,
@@ -101,18 +119,21 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			jQuery('.modal').slideUp(function() {
 
 			});
-			$scope.read();
+			$scope.getAllBlogsByUserId();
+			$scope.getAllLanguagesByUserId();
+			$scope.hideTheLoader();
 		}).error(function(response, data, status, headers, config) {
-			data;
 			$scope.formMessage = response.message;
+			$scope.hideTheLoader();
 		});
 	};
 
 	
 	
 	$scope.updateBlog = function(id, code , topic) {
+		$scope.showTheLoader();
 		$scope.blog = {
-			id : id,
+			blogId : id,
 			topic : topic,
 			codeblock : code,
 		}
@@ -126,36 +147,35 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 				'Accept' : 'application/json'
 			}
 		}).success(function(response, data, status, headers, config) {
-			jQuery('.modal').slideUp(function() {
-
-			});
-			$window.location.reload();
+			jQuery('#myModal').slideUp('slow');
 			$scope.getAllBlogsByUserId();
+			$scope.hideTheLoader();
 		}).error(function(response, data, status, headers, config) {
-			data;
 			$scope.formMessage = response.message;
+			$scope.hideTheLoader();
 		});
 	};
 
 	$scope.SearchAllBlogs = function(search) {
+		$scope.showTheLoader();
 		search = search.toUpperCase();
 		url = $scope.restUrl + "/SearchAllBlogs/" + search;
 		$http.get(url).then(function(response) {
-			$scope.printAllAvalibaleLanguages = response.data;
+			$scope.printAllAvalibaleLanguages = response.data.entity;
 			$scope.printAllBlogs = $scope.printAllAvalibaleLanguages;
+			$scope.hideTheLoader();
 		}, function(response) {
 			$scope.searchError = response.data.message ;
-			  $timeout(function () {
-				  $scope.searchError = "";
-			  }, 5000);
+			$scope.hideTheLoader();
 			
 		});
 	}
 
 	$scope.deleteBlog = function(id) {
+		$scope.showTheLoader();
 		$scope.blog = {
-			id : id,
-		}
+				blogId : id,
+			}
 		$http({
 			method : 'DELETE',
 			data : $scope.blog,
@@ -166,55 +186,32 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 				'Accept' : 'application/json'
 			}
 		}).success(function(response, data, status, headers, config) {
-
-			jQuery('.modal').slideUp(function() {
-
-			});
-			$window.location.reload();
+			jQuery('#myModal2').slideUp('slow');
+			$scope.getAllBlogsByUserId();
 		}).error(function(response, data, status, headers, config) {
-			data;
-			$scope.formMessage = response.message;
+			$scope.hideTheLoader();
+			$scope.formMessage = response;
 
 		});
 
 	};
 
 	$scope.getAllBlogsByLanguage = function(val) {
-		if (val == "C#") {
-			val = "C"
-		}
-
-		else if (val == "HTML AND CSS") {
-			val = "HTML"
-		}
-
-		else if (val == "JAVA SCRIPT") {
-			val = "SCRIPT"
-		}
-
+		$scope.showTheLoader();
 		url = $scope.restUrl + "/getAllBlogsByLanguage/" + val;
 		$http.get(url).then(function(response) {
-			$scope.printAllBlogsByLanguage = response.data;
+			$scope.printAllBlogsByLanguage = response.data.entity;
 			$scope.printAllBlogs = $scope.printAllBlogsByLanguage;
+			$scope.hideTheLoader();
 		}, function(response) {
-
+			$scope.hideTheLoader();
 		});
 
 	}
 
-	$scope.read = function() {
-		$scope.getAllBlogsByUserId();
-		$scope.getAllLanguagesByUserId();
-	}
-
-	$scope.clean = function() {
-		$scope.formMessage == "";
-		$scope.topic = "";
-		$scope.codeblock = "";
-		$scope.selectedLanguage = "";
-	}
 
 	$scope.logout = function() {
+		$scope.showTheLoader();
 		$http({
 			method : 'GET',
 			data : $scope.blog,
@@ -226,8 +223,9 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			}
 		}).success(function(response, data, status, headers, config) {
 			$scope.formMessage = response
+			$scope.hideTheLoader();
 		}).error(function(response, data, status, headers, config) {
-			data;
+			$scope.hideTheLoader();
 			$scope.formMessage = response.message;
 
 		});

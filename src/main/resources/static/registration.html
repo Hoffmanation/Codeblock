@@ -22,8 +22,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     
     <!--JS Defenitions  -->
-	<script data-require="angular.js@1.0.x" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular.min.js" data-semver="1.0.8"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular-cookies.js"></script>
+	<script data-require="angular.js@1.0.x" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js" data-semver="1.0.8"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-cookies.js"></script>
 	<script src="resources/js/blog.js"></script>
 	<script src="resources/js/bootstrap.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
@@ -45,25 +45,29 @@
     <form class="form-signin" role="form" ng-submit="register()">
         <h2 class="form-signin-heading">Create your account</h2>
             <div class="form-group">
-                <input type="text" path="username" class="form-control" placeholder="Username" ng-model="username" autofocus="true"></input>
-                <span>{{usernameError}}</span>
+                <input type="text" path="username" class="form-control" placeholder="Email" ng-model="username" autofocus="true"></input>
+                <span class="errorMessage">{{sizeUsername}}</span>
+                <span class="errorMessage">{{duplicateUsername}}</span>
+                <span class="errorMessage">{{emailNotValid}}</span>
             </div>
-       
             <div class="form-group">
                 <input type="password" path="password" class="form-control" placeholder="Password" ng-model="password"></input>
-                <span>{{passwordError}}</span>
+              	<span class="errorMessage">{{sizePassword}}</span>
             </div>
 
             <div class="form-group">
                 <input type="password" path="passwordConfirm" class="form-control" placeholder="Confirm your password" ng-model="passwordConfirm"></input>  
-               <div ng-repeat="error in registrationErrorMessage">
-                <span class="errorMessage">*{{error}}</span> 
-                </div>
+                <span class="errorMessage">{{dontMatchPasswordConfirm}}</span> 
+                <span class="errorMessage">{{notEmpty}}</span> 
             </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit" >Submit</button>
-    </form>
+        <h4 class="text-center"><a href="/login.html" >Go to login</a></h4>
+<div class="loader" ng-hide="loader"></div>
 
+    </form>
 </div>
+
+
 
 </body>
 </html>

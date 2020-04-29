@@ -8,7 +8,7 @@ import com.codeblock.handler.BlogException;
 
 public interface UserService {
 
-	public boolean createUser(String name , String password, String password2) throws BlogException;
+	public boolean createUser(String name , String password) throws BlogException;
 	
 	public boolean createUser(User user) throws BlogException;
 
@@ -17,7 +17,7 @@ public interface UserService {
 
 	public boolean logout() throws BlogException;
 	
-	 public User findByUsername(String username);
+	 public User findByUsername(String username) ;
 	
 
 }

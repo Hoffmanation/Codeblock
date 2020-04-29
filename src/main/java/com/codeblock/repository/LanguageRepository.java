@@ -11,6 +11,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import com.codeblock.entity.Blog;
 import com.codeblock.entity.Language;
+import com.codeblock.handler.BlogException;
 
 
 @RepositoryRestResource(path = "/Language", collectionResourceRel = "Language")
@@ -19,7 +20,7 @@ public interface LanguageRepository extends JpaRepository<Language,UUID> {
 	
 	@RestResource(exported = false)
 	@Query("SELECT l.name FROM Language AS l")
-	public List<String> getAllLanguages();
+	public List<String> getAllLanguages() throws BlogException;
 	
 
 }

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.ws.rs.core.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -30,7 +32,7 @@ public class BlogServiceImpl implements BlogService {
 		try {
 			return blogDao.getAllBlogsByLanguage(language, userId);
 		} catch (Exception e) {
-			throw new BlogException(e.getMessage());
+			throw new BlogException(e.getMessage(),Response.Status.NOT_FOUND);
 		}
 	}
 
@@ -40,7 +42,7 @@ public class BlogServiceImpl implements BlogService {
 		try {
 			return blogDao.getAllBlogsByUserId(userId);
 		} catch (Exception e) {
-			throw new BlogException(e.getMessage());
+			throw new BlogException(e.getMessage(),Response.Status.NOT_FOUND);
 		}
 	}
 
@@ -50,7 +52,7 @@ public class BlogServiceImpl implements BlogService {
 		try {
 			return blogDao.getAllBlogsByDate(date, userId);
 		} catch (Exception e) {
-			throw new BlogException(e.getMessage());
+			throw new BlogException(e.getMessage(),Response.Status.NOT_FOUND);
 		}
 	}
 
@@ -60,7 +62,7 @@ public class BlogServiceImpl implements BlogService {
 		try {
 			return blogDao.SearchAllBlogs(search, userId);
 		} catch (Exception e) {
-			throw new BlogException(e.getMessage());
+			throw new BlogException(e.getMessage(),Response.Status.NOT_FOUND);
 		}
 	}
 
@@ -73,7 +75,7 @@ public class BlogServiceImpl implements BlogService {
 			blogDao.save(blog);
 			return true;
 		} catch (Exception e) {
-			throw new BlogException(e.getMessage());
+			throw new BlogException(e.getMessage(),Response.Status.NOT_FOUND);
 		}
 	}
 
@@ -81,10 +83,10 @@ public class BlogServiceImpl implements BlogService {
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public boolean updateBlog(String codeblock, String topic, UUID blogId) throws BlogException {
 		try {
-			blogDao.updateBlog(codeblock, topic,blogId);
+			blogDao.updateBlog(codeblock, topic, blogId);
 			return true;
 		} catch (Exception e) {
-			throw new BlogException(e.getMessage());
+			throw new BlogException(e.getMessage(),Response.Status.NOT_FOUND);
 		}
 	}
 
@@ -95,7 +97,7 @@ public class BlogServiceImpl implements BlogService {
 			blogDao.delete(tempBlog.get(0));
 			return true;
 		} catch (Exception e) {
-			throw new BlogException(e.getMessage());
+			throw new BlogException(e.getMessage(),Response.Status.NOT_FOUND);
 		}
 	}
 
@@ -104,7 +106,7 @@ public class BlogServiceImpl implements BlogService {
 		try {
 			return blogDao.getBlogByBlogId(blogId);
 		} catch (Exception e) {
-			throw new BlogException(e.getMessage());
+			throw new BlogException(e.getMessage(),Response.Status.NOT_FOUND);
 		}
 	}
 
@@ -113,7 +115,7 @@ public class BlogServiceImpl implements BlogService {
 		try {
 			return blogDao.getAllLanguagesByUserId(userId) ;
 		} catch (Exception e) {
-			throw new BlogException(e.getMessage()) ;
+			throw new BlogException(e.getMessage(),Response.Status.NOT_FOUND);
 		}
 	}
 

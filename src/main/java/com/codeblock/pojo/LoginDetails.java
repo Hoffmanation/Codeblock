@@ -4,15 +4,17 @@ public class LoginDetails {
 
 	private String username ;
 	private String password ;
+	private String passwordConfirm;
 	
 	public LoginDetails() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public LoginDetails(String username, String password) {
+	public LoginDetails(String username, String password,String passwordConfirm) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.passwordConfirm = passwordConfirm;
 	}
 
 	public String getUsername() {
@@ -30,6 +32,21 @@ public class LoginDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+
+	@Override
+	public String toString() {
+		return "LoginDetails [username=" + username + ", password=" + password + ", passwordConfirm=" + passwordConfirm
+				+ "]";
+	}
+	
 	
 	
 }
