@@ -14,14 +14,16 @@ public class Language {
 
 	private UUID id ;
 	private String name ;
+	private String imageUrl ;
 	
 	public Language() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Language(String name) {
+	public Language(String name,String imageUrl) {
 		super();
 		this.name = name;
+		this.imageUrl = imageUrl ;
 	}
 
 	@Id
@@ -34,6 +36,16 @@ public class Language {
 		this.id = id;
 	}
 
+	
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -44,8 +56,10 @@ public class Language {
 
 	@Override
 	public String toString() {
-		return "Language [id=" + id + ", name=" + name + "]";
+		return "Language [id=" + id + ", name=" + name + ", imageUrl=" + imageUrl + "]";
 	}
+
+
 	
 
 }

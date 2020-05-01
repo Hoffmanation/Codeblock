@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ import com.codeblock.repository.RoleRepository;
 import com.codeblock.repository.UserRepository;
 import com.codeblock.service.UserService;
 
-@Service
+@Component
 public class UserServiceImpl implements UserService {
 
 	

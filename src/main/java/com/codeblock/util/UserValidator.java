@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -24,7 +25,7 @@ import com.codeblock.service.UserService;
  * @author Hoffman
  *
  */
-@Service
+@Component
 public class UserValidator implements Validator {
 
 	/**

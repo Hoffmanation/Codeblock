@@ -7,24 +7,24 @@ import java.util.UUID;
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codeblock.entity.Blog;
 import com.codeblock.handler.BlogException;
+import com.codeblock.manager.LnguageManager;
 import com.codeblock.repository.BlogRepository;
 import com.codeblock.service.BlogService;
-import com.codeblock.util.WebScrapUtil;
 
-@Service
+@Component
 public class BlogServiceImpl implements BlogService {
 
 	@Autowired
 	private BlogRepository blogDao;
 	
 	@Autowired
-	private WebScrapUtil  webScrapUtil;
+	private LnguageManager  LnguageManager;
 
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
@@ -71,7 +71,7 @@ public class BlogServiceImpl implements BlogService {
 	public boolean createBlog(String topic, String codeblock, String language, String date, UUID userId)
 			throws BlogException {
 		try {
-			Blog blog = new Blog(topic, codeblock, language.toUpperCase(), date,webScrapUtil.retrieveProgramLanguageImg(language), userId);
+			Blog blog = new Blog(topic, codeblock, language.toUpperCase(), date,LnguageManager.getProgLanImage(language), userId);
 			blogDao.save(blog);
 			return true;
 		} catch (Exception e) {

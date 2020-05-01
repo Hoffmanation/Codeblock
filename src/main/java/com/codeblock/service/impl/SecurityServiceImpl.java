@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.codeblock.service.SecurityService;
@@ -25,7 +25,7 @@ import com.codeblock.service.SecurityService;
  * @author Hoffman
  *
  */
-@Service
+@Component
 public class SecurityServiceImpl implements SecurityService {
 	private static final Logger logger = Logger.getLogger(SecurityServiceImpl.class.getSimpleName());
 	
@@ -37,9 +37,6 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
-	@Autowired
-	private  BCryptPasswordEncoder encoder ;
 	
 
 /**

@@ -41,9 +41,20 @@ loginApp.controller("loginAppController",function($scope, $http, $rootScope, $wi
 		$scope.resetPasswrodResponse="";
 	}
     
+    
+	$scope.showTheLoader = function(){
+		jQuery('#cover-spin').show();
+	}
+	
+	$scope.hideTheLoader = function(){
+		jQuery('#cover-spin').hide();
+	}
+	
+	$scope.hideTheLoader();
 				
     //Login 
 	$scope.login = function() {
+		$scope.showTheLoader();
 		 $scope.cleanErrors();
 		$scope.loader = false ;
 		$scope.userDetails = {
@@ -68,19 +79,20 @@ loginApp.controller("loginAppController",function($scope, $http, $rootScope, $wi
 					else if (response.status ==401){
 						$scope.loginMessage = response.entity ;							
 					}
-					$scope.loader = true ;
+					$scope.hideTheLoader();
 		}).error(function(response, data, status, headers,config) {
 					if(response.status == 403){
 						$window.location.href = '/login.html';
 					}
 					$scope.errorMessage = response.entity ;
-					$scope.loader = true ;
+					$scope.hideTheLoader();
 				});
 	 };
 								
 
 	 //Registration
 	$scope.register = function() {
+		$scope.showTheLoader();
 		$scope.cleanErrors();
 		$scope.loader = false ;
 		$scope.userDetails = {
@@ -111,19 +123,20 @@ loginApp.controller("loginAppController",function($scope, $http, $rootScope, $wi
 						$scope.dontMatchPasswordConfirm	= response.entity.dontMatchPasswordConfirm;
 						$scope.emailNotValid = response.entity.emailNotValid ;
 					}
-					$scope.loader = true ;
+					$scope.hideTheLoader();
 	   }).error(function(response, data, status, headers,config) {
 					if(response.status == 403){
 						$window.location.href = '/registration.html';
 					}
 					$scope.errorMessage = response.entity ;
-					$scope.loader = true ;
+					$scope.hideTheLoader();
 				});
 	};
 
 	
 	//Forgot My Password - will send user 'Reset password' email 
 	 $scope.forgotMyPassword = function(email) {
+		 $scope.showTheLoader();
 		$http({
 		  method : "post",
 		  url : $scope.restUrl +"/forgotMyPassword",
@@ -135,7 +148,9 @@ loginApp.controller("loginAppController",function($scope, $http, $rootScope, $wi
 			}
 		}).then(function mySuccess(response) {
 		  $scope.forgotMyPasswordError = response.data.entity.message
+		  $scope.hideTheLoader();
 		}, function myError(response) {
+			 $scope.hideTheLoader();
 		  $scope.myWelcome = response.statusText;
 		});
 	}
@@ -143,6 +158,7 @@ loginApp.controller("loginAppController",function($scope, $http, $rootScope, $wi
 	 
 	 //Update New password from 'Reset.html' page
 	 $scope.updateMyPassword = function(passwordToUpdate) {
+		 $scope.showTheLoader();
 		 $scope.cleanErrors()
 		 $scope.loader = false ;
 		 $scope.resetPasswordRequest = {
@@ -160,15 +176,15 @@ loginApp.controller("loginAppController",function($scope, $http, $rootScope, $wi
 				'Accept' : 'application/json'
 			}
 		}).then(function mySuccess(response) {
-			$scope.loader = true ;
 			if (response.data.status== 200) {
 				$scope.resetPasswrodResponse = response.data.entity.message
 			}
 			else if(response.data.status == 401){
 				$scope.resetPasswrodError = response.data.entity.message
 			}
+			 $scope.hideTheLoader();
 		}, function myError(response) {
-			$scope.loader = true ;
+			 $scope.hideTheLoader();
 			if (response.data.status == 200) {
 				$scope.resetPasswrodResponse = response.data.entity.message
 			}

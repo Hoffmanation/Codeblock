@@ -12,7 +12,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import com.codeblock.entity.Blog;
-import com.codeblock.entity.Language;
 
 
 @RepositoryRestResource(path = "/Blog", collectionResourceRel = "Blog")

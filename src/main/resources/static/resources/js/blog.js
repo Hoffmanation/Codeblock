@@ -13,6 +13,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 	$scope.showLoader = false;
 	$scope.Tags = '';
 	$scope.loggedinUser ;
+	$scope.deleteBlogId ;
 	$scope.alerts = [ { type: 'danger', msg: 'Please login first.' }];
 	$scope.restUrl = $location.protocol() + '://' + $location.host() + ':'+ $location.port() + "/codeblock";
 	var token = $cookies.get('XSRF-TOKEN');
@@ -38,6 +39,10 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 	
 	$scope.hideTheLoader = function(){
 		jQuery('#cover-spin').hide();
+	}
+	
+	$scope.confDeleteBlogId = function(requestedId){
+		$scope.deleteBlogId = requestedId ;
 	}
 	
 
@@ -188,6 +193,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 		}).success(function(response, data, status, headers, config) {
 			jQuery('#myModal2').slideUp('slow');
 			$scope.getAllBlogsByUserId();
+			$scope.getAllLanguagesByUserId();
 		}).error(function(response, data, status, headers, config) {
 			$scope.hideTheLoader();
 			$scope.formMessage = response;

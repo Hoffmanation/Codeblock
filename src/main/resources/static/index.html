@@ -19,6 +19,7 @@
 	<link href="resources/css/form.css" rel="stylesheet">
 	
 	
+	
 	</head>
 
 <body>
@@ -71,7 +72,7 @@
 
 
 						<p class="lead">
-							by: <a>{{info}}</a>
+							by: <a>{{username}}</a>
 						</p>
 						<p class="lead">
 							Language: <a>{{blog.language}}</a>
@@ -81,7 +82,7 @@
 							{{blog.date}}
 						</p>
 
-						<img class="img-responsive" src="{{blog.img}}" height="100" width="200" alt=""> <br>
+						<img class="img-responsive" src="{{blog.img}}" style=" height: 130px;width: 115px;"> <br>
 						<div style="margin-bottom: 40px;">
 							<pre>
 							<h4>{{blog.codeblock}}</h4>
@@ -135,33 +136,9 @@
 
 						</div>
 						<div style="display: inline-block;">
-							<a class="btn btn-primary" data-toggle="modal"
+							<a ng-click="confDeleteBlogId(blog.blogId)" class="btn btn-primary" data-toggle="modal"
 								data-target="#myModal2" href="#">Delete entry <span
 								class="glyphicon glyphicon-chevron-right"></span></a>
-							
-
-							<div class="modal fade" id="myModal2" role="dialog">
-								<div class="modal-dialog modal-sm">
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal">&times;</button>
-											<h4 class="modal-title">Delete Entry</h4>
-										</div>
-										<div class="modal-body">
-											<p>Your about to delete this entry</p>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-info btn-lg"  data-dismiss="modal" ng-click="deleteBlog(blog.blogId)">delete</button>
-											<button type="button" class="btn btn-info btn-lg"  data-dismiss="modal" >close</button>
-											<input type="hidden" id="token" name="${_csrf.parameterName}"
-												value="${_csrf.token}" />
-										</div>
-									</div>
-								</div>
-							</div>
-
-
-
 						</div>
 						<hr style="margin-top:50px ; margin-bottom:50px ;">
 					</div>
@@ -219,7 +196,6 @@
 
 						<!-- The Modal -->
 						<div id="createEntryModal" class="modal">
-
 							<!-- Modal content -->
 							<div class="modal-content" ng-init="getAvalibaleLanguages()">
 								<span class="close">&times;</span>
@@ -249,8 +225,28 @@
 									<div>{{formMessage}}</div>
 								</form>
 							</div>
-
 						</div>
+						
+						<div class="modal fade" id="myModal2" role="dialog">
+								<div class="modal-dialog modal-sm">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">Delete Entry</h4>
+										</div>
+										<div class="modal-body">
+											<p>Your about to delete this entry</p>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-info btn-lg"  data-dismiss="modal" ng-click="deleteBlog(deleteBlogId)">delete</button>
+											<button type="button" class="btn btn-info btn-lg"  data-dismiss="modal" >close</button>
+											<input type="hidden" id="token" name="${_csrf.parameterName}"
+												value="${_csrf.token}" />
+										</div>
+									</div>
+								</div>
+							</div>
+						
 					</div>
 					<!-- Side Widget Well -->
 					<div class="well">
