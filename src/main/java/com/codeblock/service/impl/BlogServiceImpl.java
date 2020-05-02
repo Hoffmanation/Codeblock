@@ -23,6 +23,7 @@ import com.codeblock.service.BlogService;
  * @author Hoffman
  *
  */
+@Transactional
 @Component
 public class BlogServiceImpl implements BlogService {
 

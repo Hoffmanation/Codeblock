@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.codeblock.service.SecurityService;
 
@@ -25,6 +26,7 @@ import com.codeblock.service.SecurityService;
  * @author Hoffman
  *
  */
+@Transactional
 @Component
 public class SecurityServiceImpl implements SecurityService {
 	private static final Logger logger = Logger.getLogger(SecurityServiceImpl.class.getSimpleName());

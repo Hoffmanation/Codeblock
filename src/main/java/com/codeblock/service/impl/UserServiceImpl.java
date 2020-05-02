@@ -26,6 +26,7 @@ import com.codeblock.service.UserService;
  * @author Hoffman
  *
  */
+@Transactional
 @Component
 public class UserServiceImpl implements UserService {
 
