@@ -3,6 +3,11 @@ package com.codeblock.entity;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * This Entity class will be use to store the user-role information in the DB that will be validate and authenticate by Spring-Security
+ * @author Hoffman
+ *
+ */
 @Entity
 @Table(name = "role")
 public class Role {

@@ -7,9 +7,9 @@ import javax.ws.rs.ext.Provider;
 import org.springframework.http.MediaType;
 
 /**
- * This class will provide a message to be shown to the user in case an
+ * A {@link @Provider} class will provides a global handling for all exceptions throughout this application. 
+ * Provide a message to be shown to the user in case an
  * exception is thrown by one of the restful resource methods
- * 
  * @author Hoffman
  *
  */

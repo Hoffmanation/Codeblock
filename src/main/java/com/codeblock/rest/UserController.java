@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codeblock.manager.UserManager;
 import com.codeblock.pojo.LoginDetails;
 
+/**
+ * A Collection of {@link RestController} class that will accept HTTP request to interact with the JS client
+ * A Collection of REST-API's for validating and authenticating user's login, register, update password and logout 
+ * @author Hoffman
+ *
+ */
 @RestController
 public class UserController {
 

@@ -1,8 +1,12 @@
 package com.codeblock.manager;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -16,6 +20,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.codeblock.entity.Language;
+import com.codeblock.handler.BlogException;
+import com.codeblock.handler.ErrorProvider;
 import com.codeblock.repository.LanguageRepository;
 import com.codeblock.util.Constants;
 
@@ -26,8 +32,8 @@ import com.codeblock.util.Constants;
  *
  */
 @Service
-public class LnguageManager {
-	private static final Logger logger = LogManager.getLogger(LnguageManager.class);
+public class LanguageManager {
+	private static final Logger logger = LogManager.getLogger(LanguageManager.class);
 	
 	private Map<String, String> languageCache ;
 	/**
@@ -36,7 +42,9 @@ public class LnguageManager {
 	@Autowired
 	private LanguageRepository lanRepository;
 	
-	
+	/**
+	 * Init method will populate the Language cache @see LanguageManager#languageCache
+	 */
 	public void init() {
 		languageCache = new HashMap<String, String>();
 		
@@ -45,10 +53,15 @@ public class LnguageManager {
 		}
 	}
 	
+	//Get a specific Programming Language for the cache
 	public String getProgLanImage(String name) {
 		return this.languageCache.get(name) ;
 	}
 	
+	//Get a all Programming Language for the cache
+	public Response getAvalibaleLanguages(HttpSession session) {
+			return Response.status(200).entity(new HashSet<>(languageCache.keySet())).build();
+	}
 
 	/*
 	 * Method will retrieve a list of program languages by scraping the web and will

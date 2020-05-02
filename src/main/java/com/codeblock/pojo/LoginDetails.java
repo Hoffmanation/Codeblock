@@ -1,5 +1,10 @@
 package com.codeblock.pojo;
 
+/*
+ *A helper-pojo for send and validate user login
+ * @author Hoffman
+ *
+ */
 public class LoginDetails {
 
 	private String username ;

@@ -1,5 +1,7 @@
 //Main blog angularJs module
-var blogApp = angular.module("blogApp",  [ 'ui.bootstrap' ,'ngCookies'  ]);
+var blogApp = angular.module("blogApp",  [ 'ngSanitize', 'ui.select' ,'ui.bootstrap' ,'ngCookies'  ]);
+
+
 
 //Main blog angularJs module-controller
 blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootScope,$window, $location,$cookies) {
@@ -9,28 +11,58 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 	 */
 	$scope.username
 	$scope.searchError = "" ; 
-	$scope.KeyPressed = false;
+
 	$scope.showLoader = false;
 	$scope.Tags = '';
 	$scope.loggedinUser ;
 	$scope.deleteBlogId ;
-	$scope.alerts = [ { type: 'danger', msg: 'Please login first.' }];
+	$scope.alertMessage ;
+	  $scope.alerts = {
+		  empty : { type: 'danger', msg: 'Please fill in all the required fields and try submitting again !' },
+		  created : { type: 'success', msg: 'Successfully created new entry' },
+		  deleted : { type: 'info', msg: 'Successfully deleted entry' },
+		  updeted : { type: 'info', msg: 'Successfully updated entry' },
+		  fatal : { type: 'danger', msg: 'An error has occured, Please try again later' },
+	  		};
 	$scope.restUrl = $location.protocol() + '://' + $location.host() + ':'+ $location.port() + "/codeblock";
 	var token = $cookies.get('XSRF-TOKEN');
+	jQuery('#alerts-messages').hide();
+	
 
 
 	/**
 	 * Handler Functions 
 	 */	
-	$scope.ShowTags = function () {
-		return $scope.KeyPressed && $scope.Tags !== '';
+
+	$scope.showAlert = function(alert){
+		jQuery('#alerts-messages').removeClass('alert-danger');
+		jQuery('#alerts-messages').removeClass('alert-success');
+		jQuery('#alerts-messages').removeClass('alert-info');
+		$scope.alertMessage = alert.msg
+		jQuery('#alerts-messages').attr('ng-class' , 'alert-'+alert.type)
+		jQuery('#alerts-messages').addClass('alert-'+alert.type)
+		setTimeout(() => {
+			
+			jQuery('#alerts-messages').slideDown('slow', function(){
+			    $(this).delay(2000).slideUp('slow', function(){
+			    	$scope.hideTheLoader();
+			    });
+			});
+		}, 500);
 	}
+	
+	$scope.closeAlert = function($index){
+		jQuery('#alerts-messages').hide();
+		$scope.hideTheLoader();
+	}
+	
 
 	$scope.clean = function() {
 		$scope.formMessage == "";
 		$scope.topic = "";
 		$scope.codeblock = "";
 		$scope.selectedLanguage = "";
+		$('body').removeClass("modal-open");
 	}
 	
 	$scope.showTheLoader = function(){
@@ -45,6 +77,10 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 		$scope.deleteBlogId = requestedId ;
 	}
 	
+	$scope.isValidEntry = function(blog){
+		return blog.codeblock && blog.topic ;
+	}
+	
 
 	/**
 	 * HTTP Ajax Functions 
@@ -56,6 +92,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			$scope.username  = $scope.loggedinUser.username ;
 			$scope.username  = $scope.username.substring(0, $scope.username.indexOf('@'));
 			$scope.getAllBlogsByUserId();
+			$scope.getAvalibaleLanguages() ;
 			$scope.hideTheLoader();
 		}, function(response) {
 			$scope.errormessage = response.data.message;
@@ -108,8 +145,13 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 		$scope.blog = {
 			topic : $scope.topic,
 			codeblock : $scope.codeblock,
-			language : $scope.selectedLanguage,
+			language : $scope.printAllAvalibaleLanguages.selected,
 		}
+		if(!$scope.isValidEntry($scope.blog)){
+			$scope.showAlert($scope.alerts.empty);
+			return 
+		}
+		
 		$http({
 			method : 'POST',
 			data : $scope.blog,
@@ -127,9 +169,11 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			$scope.getAllBlogsByUserId();
 			$scope.getAllLanguagesByUserId();
 			$scope.hideTheLoader();
+			$scope.showAlert($scope.alerts.created);
 		}).error(function(response, data, status, headers, config) {
 			$scope.formMessage = response.message;
 			$scope.hideTheLoader();
+			$scope.showAlert($scope.alerts.fatal);
 		});
 	};
 
@@ -142,6 +186,12 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			topic : topic,
 			codeblock : code,
 		}
+		
+		if(!$scope.isValidEntry($scope.blog)){
+			$scope.showAlert($scope.alerts.empty);
+			return 
+		}
+		
 		$http({
 			method : 'PUT',
 			data : $scope.blog,
@@ -153,11 +203,14 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			}
 		}).success(function(response, data, status, headers, config) {
 			jQuery('#myModal').slideUp('slow');
+			$("#myModal").modal("hide");
 			$scope.getAllBlogsByUserId();
 			$scope.hideTheLoader();
+			$scope.showAlert($scope.alerts.updeted);
 		}).error(function(response, data, status, headers, config) {
 			$scope.formMessage = response.message;
 			$scope.hideTheLoader();
+			$scope.showAlert($scope.alerts.fatal);
 		});
 	};
 
@@ -172,6 +225,7 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 		}, function(response) {
 			$scope.searchError = response.data.message ;
 			$scope.hideTheLoader();
+			$scope.showAlert($scope.alerts.fatal);
 			
 		});
 	}
@@ -194,9 +248,11 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 			jQuery('#myModal2').slideUp('slow');
 			$scope.getAllBlogsByUserId();
 			$scope.getAllLanguagesByUserId();
+			$scope.showAlert($scope.alerts.deleted);
 		}).error(function(response, data, status, headers, config) {
 			$scope.hideTheLoader();
 			$scope.formMessage = response;
+			$scope.showAlert($scope.alerts.fatal);
 
 		});
 
@@ -237,5 +293,4 @@ blogApp.controller("blogAppController", function($timeout ,$scope, $http, $rootS
 		});
 
 	};
-
 });

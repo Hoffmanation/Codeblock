@@ -4,11 +4,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 /**
- * the class that created the CustomerManagerExeception to be used in this
- * system. every exception that may arise within the system is converted to a
- * CustomerManagerExeception and it's message was edited to fit the users needs.
+ * Custom Exception class will serve as an error message return to the client
+ * in case a CRUD operation failed.
+ * 
+ * @author Hoffman
+ *
  */
-
 public class BlogException extends Exception {
 	private static final long serialVersionUID = 1L;
 	private String errorMessage;
@@ -21,10 +22,12 @@ public class BlogException extends Exception {
 
 	}
 
+	//Method will provide a specific error Message for the REST API error response
 	public String getBlogError() {
 		return this.errorMessage;
 	}
 
+	//Method will provide a specific error status code for the REST API error response
 	public Response.Status getBlogErrorStatus() {
 		return this.errorStatus;
 	}

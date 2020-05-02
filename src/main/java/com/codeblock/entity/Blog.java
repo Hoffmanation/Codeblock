@@ -13,6 +13,11 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
+/**
+ * This Entity class will be use to store upload users blog information in the DB
+ * @author Hoffman
+ *
+ */
 @Entity
 @Table(name = "blog")
 public class Blog implements Serializable {

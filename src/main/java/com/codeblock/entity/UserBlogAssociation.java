@@ -4,8 +4,12 @@ package com.codeblock.entity;
 
 import java.io.Serializable;
 import java.util.UUID;
-
-public class UserBlogAccociation implements Serializable {
+/**
+ * This Helper POJO-class will be used  to defined the User-Blog-Association in order to help JPA create a Join Column for the USER-BLOG entities in the DB.
+ * @author Hoffman
+ *
+ */
+public class UserBlogAssociation implements Serializable {
 
 	private static final long serialVersionUID = -4808978909167200869L;
 
@@ -30,7 +34,7 @@ public class UserBlogAccociation implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UserBlogAccociation other = (UserBlogAccociation) obj;
+		UserBlogAssociation other = (UserBlogAssociation) obj;
 		if (blogId == null) {
 			if (other.blogId != null)
 				return false;

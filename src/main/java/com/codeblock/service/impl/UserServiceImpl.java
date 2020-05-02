@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codeblock.entity.Blog;
 import com.codeblock.entity.Role;
 import com.codeblock.entity.User;
 import com.codeblock.handler.BlogException;
@@ -19,10 +20,18 @@ import com.codeblock.repository.RoleRepository;
 import com.codeblock.repository.UserRepository;
 import com.codeblock.service.UserService;
 
+/**
+ * A Service-Implementation class  for the {@link User} DAO-Layer service
+ * Uses Spring {@link Transactional}
+ * @author Hoffman
+ *
+ */
 @Component
 public class UserServiceImpl implements UserService {
 
-	
+	/**
+	 * Spring Dependency Injection
+	 */
 	@Autowired
 	private UserRepository userDao;
 
@@ -32,7 +41,11 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	/**
+	 * CRUD methods for the {@link User} entity
+	 */
 	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public boolean createUser(User user) throws BlogException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Role newRole = new Role("ROLE_USER");
@@ -45,12 +58,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public User findByUsername(String username) {
 		return userDao.findByUsername(username);
 	}
 
 	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public List<User> getUserById(UUID id) throws BlogException {
 			if (!userDao.getUserById(id).isEmpty()) {
 				return userDao.getUserById(id);
@@ -59,7 +73,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-
+	//Not in used (No B-L is need for now)
 	@Override
 	public boolean logout() {
 		return false;

@@ -1,16 +1,17 @@
 package com.codeblock.pojo;
 
-
-
-
-
-public class Message {
+/**
+ * Message POJO will be used as a custom  response for any  REST API.
+ * @author Hoffman
+ *
+ */
+public class RestMessage {
 	private String message;
 
-	public Message() {
+	public RestMessage() {
 	}
 
-	public Message(String message) {
+	public RestMessage(String message) {
 		super();
 		this.message = message;
 	}

@@ -15,32 +15,55 @@ import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
+/**
+ * A Web security configuration class for determining web behaviour,Authorities and user roles
+ * @author Hoffman
+ *
+ */
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	/*
+	 *Spring Dependency Injection 
+	 */
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /*
+     * Creates a {@link BCryptPasswordEncoder} Spring-Bean to be 
+     * used when ever encryption  is need 
+     * @return {@link BCryptPasswordEncoder}
+     */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /*
+     *Main Web security configuration method 
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	  http
     	     .authorizeRequests()
-    	         .antMatchers("/resources/**", "/registration.html" ,"/codeblock/**" ,"/static/**").permitAll() .antMatchers("/index.html").hasRole("USER")
+    	     	//Permit all HTTP requests that trying to get a static resource (besides index.html) 
+    	         .antMatchers("/resources/**", "/registration.html" ,"/codeblock/**" ,"/static/**").permitAll() 
+    	         //Authenticate every HTTP request that trying to get to the main application page (index.html) by checking ROLE-USER
+    	         .antMatchers("/index.html").hasRole("USER")
     	         .anyRequest().authenticated()
     	         .and()
+    	       //Register a login page and a Success URL to be redirected to (upon successful user login) 
     	         .formLogin()
     	         .loginPage("/login.html").defaultSuccessUrl("/index.html")
+    	         //Permit all HTTP requests for the .formLogin() section
     	         .permitAll()
     	         .and()
     	         .logout()
+    	         //Register a custom logout filter listener
     	         .logoutRequestMatcher(new AntPathRequestMatcher("/codeblock/logout"))
     	         .addLogoutHandler(new CodeblockLogoutHandler())
-    	         .logoutSuccessUrl("/codeblock/logout").permitAll().and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class); ;
+    	         .logoutSuccessUrl("/codeblock/logout").permitAll()
+    	         //Add custom filer {@link CsrfHeaderFilter} for managing CSRF-TOKEN right after Spring's own -  {@link CsrfFilter}
+    	         .and().addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class); ;
     	  
 
     }

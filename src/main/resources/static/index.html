@@ -16,17 +16,19 @@
 	<!-- CSS Definitions-->
 	<link href="resources/css/bootstrap.min.css" rel="stylesheet">
 	<link href="resources/css/blog-home.css" rel="stylesheet">
-	<link href="resources/css/form.css" rel="stylesheet">
+	<link href="resources/css/form.css" rel="stylesheet"> 
+    <link rel="stylesheet" href="resources/css/select.css">
 	
 	
 	
 	</head>
 
 <body>
-	<!--angularJS definition  -->
 	<div ng-app="blogApp" ng-controller="blogAppController" data-ng-init="getUserInfo()">
-	<div id="cover-spin"></div>
-
+		<div id="cover-spin"></div>
+		<div>
+		<div class="alerts" uib-alert id="alerts-messages" ng-class="" close="closeAlert($index)">{{alertMessage}}</div>
+		<div>
 		<!-- Navigation -->
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 				<form id="logoutForm" method="POST" action="${contextPath}/logout">
@@ -56,7 +58,6 @@
 
 		<!-- Page Content -->
 		<div class="container">
-  			<div ng-show="ShowTags()" uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
 			<div class="row">
 				<!-- Blog Entries Column -->
 				<div class="col-md-8">
@@ -81,7 +82,7 @@
 							<span class="glyphicon glyphicon-time"></span> Posted on
 							{{blog.date}}
 						</p>
-
+						
 						<img class="img-responsive" src="{{blog.img}}" style=" height: 130px;width: 115px;"> <br>
 						<div style="margin-bottom: 40px;">
 							<pre>
@@ -106,15 +107,6 @@
 											<input type="text" id="input-name" placeholder="Topic"
 												ng-model="topic">
 										</div>
-										<!-- <div class="styled-select blue semi-square">
-										<select ng-model="selectedLanguage"
-											placeholder="Write your code here"
-											ng-options="language for language in printAllAvalibaleLanguages">
-											<option value="" disabled selected>Language</option>
-										</select>
-
-									</div> -->
-
 
 										<div class="cf">
 											<textarea name="message" type="text" id="input-message"
@@ -197,31 +189,43 @@
 						<!-- The Modal -->
 						<div id="createEntryModal" class="modal">
 							<!-- Modal content -->
-							<div class="modal-content" ng-init="getAvalibaleLanguages()">
+							<div class="modal-content">
 								<span class="close">&times;</span>
+								
 								<h1>Create new entry</h1>
+								
+	
+
+
+								   
 								<form class="cf">
 									<div class="half left cf">
 										<input type="text" id="input-name" placeholder="Topic"
 											ng-model="topic">
 									</div>
-									<div class="half right cf">
-										<select ng-model="selectedLanguage"
-											placeholder="Write your code here"
-											ng-options="language for language in printAllAvalibaleLanguages">
-											<option value="" disabled selected>Language</option>
-										</select>
+									
+									
+									<div class="input-group" style="margin-top: 17px;">
+							            <ui-select allow-clear ng-model="printAllAvalibaleLanguages.selected" theme="bootstrap">
+							              <ui-select-match placeholder="Select or search a person in the list...">{{$select.selected}}</ui-select-match>
+							              <ui-select-choices repeat="item in printAllAvalibaleLanguages | filter: $select.search">
+							                <span ng-bind-html="item| highlight: $select.search"></span>
+							              </ui-select-choices>
+							            </ui-select>
+							
+							            <span class="input-group-btn">
+							              <button type="button" ng-click="printAllAvalibaleLanguages.selected = undefined" class="btn btn-default">
+							                <span class="glyphicon glyphicon-trash"></span>
+							              </button>
+							            </span>
+							          </div>
 
-									</div>
-
-
+									
 									<div class="cf">
-										<textarea name="message" type="text" id="input-message"
-											placeholder="Write your code here" rows="12"
-											ng-model="codeblock"></textarea>
+										<textarea name="message" type="text" id="input-message" placeholder="Write your code here" rows="12" ng-model="codeblock">
+										</textarea>
 									</div>
-									<input ng-click="createBlog()" type="submit" value="Submit"
-										id="input-submit">
+									<input ng-click="createBlog()" type="submit" value="Submit" id="input-submit">
 									<div>{{formMessage}}</div>
 								</form>
 							</div>
@@ -260,6 +264,8 @@
 			<!-- /.row -->
 
 			<hr>
+			
+
 
 			<!-- Footer -->
 			<footer>
@@ -278,12 +284,14 @@
  
  	<script data-require="angular.js@1.0.x" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular.min.js" data-semver="1.0.8"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.10/angular-cookies.js"></script>
-    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-sanitize.js"></script>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
 	<script src="resources/js/jquery.js"></script>
 	<script src="resources/js/ui-bootstrap-tpls-2.5.0.min.js"></script>
 	<script src="resources/js/blog.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
 	<script src="resources/js/createEntrymodal.js"></script>
+	 <script src="resources/js/select.js"></script>
 	
 
 

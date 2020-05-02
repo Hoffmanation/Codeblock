@@ -10,9 +10,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+/**
+ * This Entity class will be used as a User-Blog-Association and will create a Join Column for the USER-BLOG entities in the DB.
+ * @author Hoffman
+ *
+ */
 @Entity
 @Table(name = "USER_BLOG")
-@IdClass(UserBlogAccociation.class)
+@IdClass(UserBlogAssociation.class)
 public class UserBlog implements Serializable {
 	private static final long serialVersionUID = 2356940831665710978L;
 

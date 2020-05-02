@@ -6,7 +6,11 @@ import java.util.UUID;
 
 import com.codeblock.entity.Blog;
 import com.codeblock.handler.BlogException;
-
+/**
+ * An Interface  for the {@link Blog} DAO-Layer service
+ * @author Hoffman
+ *
+ */
 public interface BlogService {
 
 

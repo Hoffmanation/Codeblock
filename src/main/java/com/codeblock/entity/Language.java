@@ -7,7 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+/**
+ * This Entity class will be use to store  'Programming Languages' data   information in the DB
+ * @author Hoffman
+ *
+ */
 @Entity
 @Table(name = "language")
 public class Language {

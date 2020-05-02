@@ -17,12 +17,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codeblock.entity.Blog;
 import com.codeblock.manager.BlogManager;
+import com.codeblock.manager.LanguageManager;
 
+/**
+ * A Collection of {@link RestController} class that will accept HTTP request to
+ * interact with the application JS client, A Collection of REST-API's for the 
+ * {@link Blog} entity B-L and CRUD operations,
+ * 
+ * @author Hoffman
+ *
+ */
 @RestController
 public class CodeblockCotroller {
 
 	@Autowired
 	private BlogManager appManager ;
+	@Autowired
+	private LanguageManager  lanManager ;
 
 	@RequestMapping(path = "codeblock/createBlog/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Response createBlog(@RequestBody(required = true) Blog blog, HttpSession session)  {
@@ -73,7 +84,7 @@ public class CodeblockCotroller {
 
 	@RequestMapping(path = "codeblock/getAvalibaleLanguages", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Response getAvalibaleLanguages(HttpSession session)  {
-		return appManager.getAvalibaleLanguages(session);
+		return lanManager.getAvalibaleLanguages(session);
 	}
 
 

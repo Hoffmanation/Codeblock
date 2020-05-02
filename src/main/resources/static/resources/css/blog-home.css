@@ -350,3 +350,14 @@ select#soflow-color {
     padding: 10px;
     tab-size: 4;
 }
+
+
+.alerts{
+	    position: absolute;
+    top: 35%;
+    right: 30%;
+    width: 50%;
+    z-index: 9999;
+	
+	
+}

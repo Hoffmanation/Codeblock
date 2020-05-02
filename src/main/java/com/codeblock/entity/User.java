@@ -6,7 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Set;
 import java.util.UUID;
-
+/**
+ * This Entity class will be use to store the user in the DB.
+ * @author Hoffman
+ *
+ */
 @Entity
 @Table(name = "users")
 public class User {

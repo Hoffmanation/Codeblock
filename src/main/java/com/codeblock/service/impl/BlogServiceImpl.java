@@ -13,19 +13,31 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codeblock.entity.Blog;
 import com.codeblock.handler.BlogException;
-import com.codeblock.manager.LnguageManager;
+import com.codeblock.manager.LanguageManager;
 import com.codeblock.repository.BlogRepository;
 import com.codeblock.service.BlogService;
 
+/**
+ * A Service-Implementation class  for the {@link Blog} DAO-Layer service
+ * Uses Spring {@link Transactional}
+ * @author Hoffman
+ *
+ */
 @Component
 public class BlogServiceImpl implements BlogService {
 
+	/**
+	 * Spring Dependency Injection
+	 */
 	@Autowired
 	private BlogRepository blogDao;
 	
 	@Autowired
-	private LnguageManager  LnguageManager;
+	private LanguageManager  LnguageManager;
 
+	/**
+	 * CRUD methods for the {@link Blog} entity
+	 */
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public List<Blog> getAllBlogsByLanguage(String language, UUID userId) throws BlogException {
@@ -91,6 +103,7 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public boolean deleteBlog(UUID blogId) throws BlogException {
 		try {
 			List<Blog> tempBlog = blogDao.getBlogByBlogId(blogId);
@@ -102,6 +115,7 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public List<Blog> getBlogByBlogId(UUID blogId) throws BlogException {
 		try {
 			return blogDao.getBlogByBlogId(blogId);
@@ -111,6 +125,7 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public Set<String> getAllLanguagesByUserId(UUID userId) throws BlogException {
 		try {
 			return blogDao.getAllLanguagesByUserId(userId) ;

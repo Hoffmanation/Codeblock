@@ -19,7 +19,7 @@ import com.codeblock.handler.BlogException;
 import com.codeblock.handler.ErrorProvider;
 import com.codeblock.pojo.LoginDetails;
 import com.codeblock.pojo.LoginError;
-import com.codeblock.pojo.Message;
+import com.codeblock.pojo.RestMessage;
 import com.codeblock.repository.LanguageRepository;
 import com.codeblock.service.BlogService;
 import com.codeblock.service.SecurityService;
@@ -44,11 +44,9 @@ public class BlogManager {
 	 */
 	@Autowired
 	private BlogService blogDao;
-	@Autowired
-	private LanguageRepository languageRepository;
 
 
-
+  //Method will be used to retrieve all Users blog by a given programming language
 	public Response getAllBlogsByLanguage(String language, HttpSession session) {
 		try {
 			User user = (User) session.getAttribute(Constants.USER_LOGIN);
@@ -58,6 +56,7 @@ public class BlogManager {
 		}
 	}
 
+	  //Method will be used to retrieve all Users blog
 	public Response getAllBlogsByUserId(HttpSession session) {
 		try {
 			User user = (User) session.getAttribute(Constants.USER_LOGIN);
@@ -68,6 +67,7 @@ public class BlogManager {
 		}
 	}
 
+	  //Method will be used to retrieve all Users blog by a giver date
 	public Response getAllBlogsByDate(String date, HttpSession session) {
 		try {
 			User user = (User) session.getAttribute(Constants.USER_LOGIN);
@@ -77,6 +77,7 @@ public class BlogManager {
 		}
 	}
 
+	  //Method will be used to retrieve all Users blog by a given search word/s
 	public Response searchAllBlogs(String search, HttpSession session) {
 		try {
 			User user = (User) session.getAttribute(Constants.USER_LOGIN);
@@ -85,7 +86,27 @@ public class BlogManager {
 			return new ErrorProvider().toResponse(e);
 		}
 	}
+	
+	  //Method will be used to retrieve a specific blog by a id
+	public Response getBlogByBlogId(UUID blogId) {
+		try {
+			return Response.status(200).entity(blogDao.getBlogByBlogId(blogId)).build();
+		} catch (BlogException e) {
+			return new ErrorProvider().toResponse(e);
+		}
+	}
 
+	  //Method will be used to retrieve a list of programming Languages by specific user
+	public Response getAllLanguagesByUserId(HttpSession session) {
+		try {
+			User user = (User) session.getAttribute(Constants.USER_LOGIN);
+			return Response.status(200).entity(blogDao.getAllLanguagesByUserId(user.getUserId())).build();
+		} catch (BlogException e) {
+			return new ErrorProvider().toResponse(e);
+		}
+	}
+
+	// BLOG CRUD operations methods
 	public Response updateBlog(Blog blog, HttpSession session) {
 		try {
 			blogDao.updateBlog(blog.getCodeblock(), blog.getTopic(), blog.getBlogId());
@@ -110,36 +131,15 @@ public class BlogManager {
 	public Response deleteBlog(Blog blog, HttpSession session) {
 		try {
 			blogDao.deleteBlog(blog.getBlogId());
-			return Response.ok(200).entity(new Message("Update seccesfully")).build();
+			return Response.ok(200).entity(new RestMessage("Update seccesfully")).build();
 		} catch (BlogException e) {
 			return new ErrorProvider().toResponse(e);
 		}
 	}
 
-	public Response getBlogByBlogId(UUID blogId) {
-		try {
-			return Response.status(200).entity(blogDao.getBlogByBlogId(blogId)).build();
-		} catch (BlogException e) {
-			return new ErrorProvider().toResponse(e);
-		}
-	}
 
-	public Response getAllLanguagesByUserId(HttpSession session) {
-		try {
-			User user = (User) session.getAttribute(Constants.USER_LOGIN);
-			return Response.status(200).entity(blogDao.getAllLanguagesByUserId(user.getUserId())).build();
-		} catch (BlogException e) {
-			return new ErrorProvider().toResponse(e);
-		}
-	}
 
-	public Response getAvalibaleLanguages(HttpSession session) {
-		try {
-			return Response.status(200).entity(languageRepository.getAllLanguages()).build();
-		} catch (BlogException e) {
-			return new ErrorProvider().toResponse(e);
-		}
-	}
+
 
 
 
